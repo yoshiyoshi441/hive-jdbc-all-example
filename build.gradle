@@ -1,0 +1,32 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.github.yoshiyoshi441'
+version = '1.0.0-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    hiveVersion = '2.3.9'
+}
+
+dependencies {
+    implementation "org.apache.hive:hive-jdbc:${hiveVersion}"
+}
+
+jar {
+    archiveBaseName.set("${rootProject.name}")
+    archiveVersion.set("${version}")
+    archiveClassifier.set('all')
+
+    // 依存jarをlibディレクトリにコピー
+    from {
+        configurations.runtimeClasspath.filter { it.name.endsWith('jar') }
+    } {
+        into 'lib'
+    }
+}
